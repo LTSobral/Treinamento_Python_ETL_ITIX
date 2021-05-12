@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import pathlib
 
 def tipocondicao(cond):
@@ -98,3 +97,38 @@ print('\nID da casa com menor preço', dfimoveis['VL_PRECO'].idxmin(), '\nID da 
 
 # Exercício 18 Qual a data do imóvel mais antigo no conjunto de dados ?
 print('\nO ano do imovel mais antigo é: ',dfimoveis['DT_ANO_CONSTRUCAO'].min(), '\nA data de refêrencia do imovel mais antigo é: ', dfimoveis['DT_REFERENCIA'].min())
+
+#Exercicio 19 De acordo com a condição do prédio, gostaria de saber o número de prédios pela condição, porém quero que seja utilizado o “groupby"
+print('\nNúmeros de prédios pela condição:\n',dfimoveis.groupby(['DS_TIPO_CONDICAO'])['id'].count())
+
+#Exercicio 20 Qual é o preço médio dos imóveis por ano de construção?
+print('\nPreço médio por ano de construçãõ: \n',dfimoveis.groupby(['DT_ANO_CONSTRUCAO'])['VL_PRECO'].mean('VL_PRECO'))
+
+#Exercicio 21 Qual é o menor número de quartos por ano de construção de imóveis ?
+print('\nMenor número de quartos por ano de construção: \n',dfimoveis.groupby(['DT_ANO_CONSTRUCAO'])['QTD_QUARTOS'].min('QTD_QUARTOS'))
+
+#Exercicio 22 Qual é a soma do preço dos imóveis por número de quartos e banheiros? (Obs: cuidado com a ordem)
+print('\nSoma dos preços dos imoveis por quartos e banheiros: \n',dfimoveis.groupby(['QTD_QUARTOS', 'QTD_BANHEIROS'])['VL_PRECO'].sum('VL_PREÇO'))
+
+#Exercicio 23 Qual é a mediana do preço dos imóveis por ano ?
+print('\nMediana do preço dos imoveis por ano: \n',dfimoveis.groupby(['DT_ANO_CONSTRUCAO'])['VL_PRECO'].median())
+
+#Exercicio 24 Classifique os imóveis de acordo com o seu preço
+# Preço  <321950    = 0
+# Preço >= 321950 e <= 450000   = 1Preço > 450000
+# <= 645000   = 2
+# Preço > 645000    = 3
+#dfimoveis.loc[dfimoveis['VL_PRECO'] < 321950, 'Classificação'] = 0
+#dfimoveis.loc[(dfimoveis['VL_PRECO'] >= 321950) & (dfimoveis['VL_PRECO'] <= 450000), 'Classificação'] = 1
+#dfimoveis.loc[(dfimoveis['VL_PRECO'] > 450000) & (dfimoveis['VL_PRECO'] <= 645000), 'Classificação'] = 2
+#dfimoveis.loc[dfimoveis['VL_PRECO'] > 645000, 'Classificação'] = 3
+# print('\nClassificação utilizando loc: \n', dfimoveis['Classificação'])
+
+#Exercicio 25 Repita o exercício 24, porém agora faça a classificaçãousando expressão lambda
+dfimoveis['Classificação'] = list(map(lambda x : 0 if x < 321950 else 3 if x > 645000 else 1 if (x >= 321950) & (x <= 450000) else 2 if (x > 450000) & (x <= 645000) else np.nan, dfimoveis['VL_PRECO']))
+print('\nClassificação utilizando lambda: \n', dfimoveis['Classificação'])
+
+#Exercicio 26
+df = pd.DataFrame(dfimoveis.groupby('NU_CEP')[['id','VL_PRECO', 'NU_CEP']].mean('VL_PRECO'))
+df.to_csv('arquivo.csv', index = False, header=True)
+print('\nArquivo Exportado como arquivo.csv\n',df)
