@@ -28,7 +28,7 @@ print("Linhas, Colunas\n",
 
 
 #EXERCÍCIO 03
-#03 Imprima as 10 primeiras linhas do conjunto de dados (Dica: head ()
+#Imprima as 10 primeiras linhas do conjunto de dados (Dica: head ()
 print("\n As dez primeiras linhas são:\n",
       dfimoveis[:10])
 #OR
@@ -53,13 +53,14 @@ print("\n O tipo de dado do da tabela data é: \n",
       dfimoveis['data'].dtypes)
 
 
-#EXERCÍCIO 05 Crie uma coluna chamada Analise e insira o ano de 2021 nela. Alterado!!
+#EXERCÍCIO 05 Crie uma coluna chamada Analise e insira o ano de 2021 nela.
 dfimoveis = dfimoveis.assign(Análise=2021)
 print("\nDataframe após a adição da coluna ANALISE: \n",
       dfimoveis.head(10))
 
 
-#EXERCÍCIO 06 Imprima na tela somente as colunas (id, data, preço, quartos, banheiros, ano de construção’)
+#EXERCÍCIO 06 Imprima na tela somente as colunas
+# (id, data, preço, quartos, banheiros, ano de construção’)
 print(dfimoveis[['data',
                  'preço',
                  'quartos',
@@ -83,10 +84,7 @@ print("\n Ano de Construção anterior a 2000:\n",
       dfimoveis.query('`ano de construção` < 2000'))
 
 
-#EXERCÍCIO 10 Altere o nome de data para DT_REFERENCIA, preço para VL_PRECO, quartos para QTD_QUARTOS, banheiros para
-#QTD_BANHEIROS, ano de construção para DT_ANO_CONSTRUCAO, código postal para NU_CEP, latitude para NU_LATITUDE,
-#longitude para NU_LONGITUDE, andares para QTD_ANDARES, orla para FL_ORLA e vista para FL_VISTA.
-#dfimoveis.rename(columns={colunasdf[1]: 'DT_REFERENCIA'}, inplace=True)
+#EXERCÍCIO 10
 dfimoveis.rename(columns={'data': 'DT_REFERENCIA',
                           'preço': 'VL_PRECO',
                           'quartos': 'QTD_QUARTOS',
@@ -127,8 +125,8 @@ print("ID e VL_PRECO:\n",
 countregular = pd.Series(dfimoveis['DS_TIPO_CONDICAO']).str.count('Regular')
 print("\nImoveis na coindição Regular são: ",
       countregular.sum())
-#OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR OR QUAL E´MAIS EFICIENTE ? Ainda n sei
-#print("\nImoveis na coindição Regular são: ", list(dfimoveis['DS_TIPO_CONDICAO'].values).count('Regular'))
+#print("\nImoveis na coindição Regular são: ", list(
+#                   dfimoveis['DS_TIPO_CONDICAO'].values).count('Regular'))
 
 
 #EXERCÍCIO 14 Imprima o preço médio das casas que possuem condição Regular.
@@ -177,13 +175,15 @@ print('\nPreço médio por ano de construçãõ: \n',
       dfimoveis.groupby(['DT_ANO_CONSTRUCAO'])['VL_PRECO'].mean('VL_PRECO'))
 
 
-#EXERCÍCIO 21 Qual é o menor número de quartos por ano de construção de imóveis ?
+#EXERCÍCIO 21 Qual é o menor número de quartos por
+#ano de construção de imóveis
 print('\nMenor número de quartos por ano de construção: \n',
       dfimoveis.groupby(['DT_ANO_CONSTRUCAO'])
       ['QTD_QUARTOS'].min('QTD_QUARTOS'))
 
 
-#EXERCÍCIO 22 Qual é a soma do preço dos imóveis por número de quartos e banheiros? (Obs: cuidado com a ordem)
+#EXERCÍCIO 22 Qual é a soma do preço dos imóveis por número de
+# quartos e banheiros? (Obs: cuidado com a ordem)
 print('\nSoma dos preços dos imoveis por quartos e banheiros: \n',
       dfimoveis.groupby(['QTD_QUARTOS', 'QTD_BANHEIROS'])
       ['VL_PRECO'].sum('VL_PREÇO'))
@@ -200,14 +200,17 @@ print('\nMediana do preço dos imoveis por ano: \n',
 #<= 645000   = 2
 #Preço > 645000    = 3
 #dfimoveis.loc[dfimoveis['VL_PRECO'] < 321950, 'Classificação'] = 0
-#dfimoveis.loc[(dfimoveis['VL_PRECO'] >= 321950) & (dfimoveis['VL_PRECO'] <= 450000), 'Classificação'] = 1
-#dfimoveis.loc[(dfimoveis['VL_PRECO'] > 450000) & (dfimoveis['VL_PRECO'] <= 645000), 'Classificação'] = 2
+#dfimoveis.loc[(dfimoveis['VL_PRECO'] >= 321950) &
+# (dfimoveis['VL_PRECO'] <= 450000), 'Classificação'] = 1
+#dfimoveis.loc[(dfimoveis['VL_PRECO'] > 450000) &
+# (dfimoveis['VL_PRECO'] <= 645000), 'Classificação'] = 2
 #dfimoveis.loc[dfimoveis['VL_PRECO'] > 645000, 'Classificação'] = 3
 # print('\nClassificação utilizando loc: \n', dfimoveis['Classificação'])
 
 
 
-#EXERCÍCIO 25 Repita o exercício 24, porém agora faça a classificaçãousando expressão lambda
+#EXERCÍCIO 25 Repita o exercício 24,
+#porém agora faça a classificaçãousando expressão lambda
 dfimoveis['Classificação'] = list(map(lambda x: 0 if x < 321950 else
             3 if x > 645000 else
             1 if (x >= 321950) & (x <= 450000) else
